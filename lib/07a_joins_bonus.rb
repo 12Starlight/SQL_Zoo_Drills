@@ -92,6 +92,14 @@ def title_tracks
   # A 'title track' has a `song` that is the same as its album's `title`. Select
   # the names of all the title tracks.
   execute(<<-SQL)
+    SELECT
+      tracks.song
+    FROM
+      tracks
+    INNER JOIN
+      albums ON tracks.album = albums.asin
+    WHERE
+      tracks.song = albums.title;
   SQL
 end
 
@@ -99,6 +107,14 @@ def eponymous_albums
   # An 'eponymous album' has a `title` that is the same as its recording
   # artist's name. Select the titles of all the eponymous albums.
   execute(<<-SQL)
+    SELECT
+      albums.title
+    FROM
+      albums
+    WHERE
+      albums.title = albums.artist
+    GROUP BY
+      albums.title;
   SQL
 end
 
@@ -106,6 +122,7 @@ def song_title_counts
   # Select the song names that appear on more than two albums. Also select the
   # COUNT of times they show up.
   execute(<<-SQL)
+    
   SQL
 end
 

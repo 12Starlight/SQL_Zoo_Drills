@@ -26,18 +26,44 @@ require_relative './sqlzoo.rb'
 def alison_artist
   # Select the name of the artist who recorded the song 'Alison'.
   execute(<<-SQL)
+    SELECT
+      albums.artist
+    FROM
+      albums
+    INNER JOIN
+      tracks ON albums.asin = tracks.album
+    WHERE
+      tracks.song = 'Alison';
   SQL
 end
 
 def exodus_artist
   # Select the name of the artist who recorded the song 'Exodus'.
   execute(<<-SQL)
+    SELECT
+      albums.artist
+    FROM
+      albums
+    INNER JOIN
+      tracks ON albums.asin = tracks.album
+    WHERE
+      tracks.song = 'Exodus';
   SQL
 end
 
 def blur_songs
   # Select the `song` for each `track` on the album `Blur`.
   execute(<<-SQL)
+    SELECT
+      tracks.song
+    FROM
+      tracks
+    INNER JOIN
+      albums ON tracks.album = albums.asin
+    WHERE
+      albums.title = 'Blur'
+    ORDER BY
+      tracks.song ASC;
   SQL
 end
 
@@ -46,6 +72,19 @@ def heart_tracks
   # the word 'Heart' (albums with no such tracks need not be shown). Order first by
   # the number of such tracks, then by album title.
   execute(<<-SQL)
+    SELECT
+      albums.title,
+      COUNT(tracks.song)
+    FROM
+      albums
+    INNER JOIN
+      tracks ON tracks.album = albums.asin
+    WHERE
+      tracks.song LIKE '%Heart%'
+    GROUP BY
+      albums.title
+    ORDER BY
+      COUNT(tracks.song) DESC, albums.title;
   SQL
 end
 

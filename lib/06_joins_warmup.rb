@@ -103,6 +103,12 @@ end
 def casablanca_id
   # What is the id of the film 'Casablanca'?
   execute(<<-SQL)
+    SELECT
+      id
+    FROM
+      movies
+    WHERE
+      title = 'Casablanca';
   SQL
 end
 
@@ -110,11 +116,31 @@ def casablanca_cast
   # Obtain the cast list for 'Casablanca'. Use the id value that you obtained
   # in the previous question directly in your query (for example, id = 1).
   execute(<<-SQL)
+    SELECT
+      name
+    FROM
+      actors
+    INNER JOIN
+      castings ON castings.actor_id = actors.id
+    INNER JOIN
+      movies ON castings.movie_id = movies.id
+    Where
+      movies.id = 27;
   SQL
 end
 
 def alien_cast
   # Obtain the cast list for the film 'Alien'
   execute(<<-SQL)
+    SELECT
+      name
+    FROM
+      actors
+    INNER JOIN
+      castings ON castings.actor_id = actors.id
+    INNER JOIN
+      movies ON castings.movie_id = movies.id
+    Where
+      movies.title = 'Alien';
   SQL
 end
